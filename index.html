@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#05050a">
-  <title>Questism System Interface</title>
+  <title>Questism System - AI Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -13,14 +13,8 @@
         extend: {
           colors: {
             'sys-black': '#05050a',
-            'sys-card': 'rgba(12, 14, 28, 0.85)',
             'neon-blue': '#00f0ff',
             'neon-purple': '#a855f7',
-            'penalty-red': '#ff003c',
-          },
-          boxShadow: {
-            'neon': '0 0 15px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2)',
-            'penalty': '0 0 25px rgba(255, 0, 60, 0.8), inset 0 0 15px rgba(255, 0, 60, 0.3)',
           }
         }
       }
@@ -40,139 +34,65 @@
       background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3));
       background-size: 100% 4px;
     }
-    @keyframes pulseGlow {
-      0%, 100% { filter: drop-shadow(0 0 8px #00f0ff); }
-      50% { filter: drop-shadow(0 0 18px #a855f7); }
+    @keyframes floatAura {
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 15px #00f0ff); }
+      50% { transform: translateY(-8px); filter: drop-shadow(0 0 25px #a855f7); }
     }
-    .quest-glow { animation: pulseGlow 3s infinite; }
+    .anime-aura { animation: floatAura 4s ease-in-out infinite; }
   </style>
 </head>
 <body class="scanline min-h-screen w-full m-0 p-4 select-none flex flex-col justify-between items-center bg-[#05050a]">
 
-  <!-- TOP HUD: PLAYER STATUS & STATS -->
+  <!-- TOP HUD: PLAYER STATUS -->
   <header class="w-full max-w-md bg-[rgba(12,14,28,0.85)] border-2 border-purple-500/70 rounded-xl p-4 shadow-[0_0_15px_rgba(168,85,247,0.3)] backdrop-blur-md">
     <div class="flex justify-between items-center border-b border-purple-500/30 pb-2">
       <div>
-        <h1 id="player-name" class="text-xl font-black tracking-widest text-[#00f0ff] m-0">PLAYER #001</h1>
+        <h1 class="text-xl font-black tracking-widest text-[#00f0ff] m-0">PLAYER #001</h1>
         <p id="ist-clock" class="text-[10px] text-purple-400 font-semibold tracking-wider m-0">IST 00:00:00</p>
       </div>
-      <span id="player-rank" class="text-xs font-bold bg-purple-950/80 border border-purple-500 px-3 py-1 rounded text-purple-400 shadow-[0_0_8px_#a855f7]">
+      <span class="text-xs font-bold bg-purple-950/80 border border-purple-500 px-3 py-1 rounded text-purple-400 shadow-[0_0_8px_#a855f7]">
         E-RANK
       </span>
     </div>
-
-    <!-- HP & EXP BARS -->
-    <div class="mt-3 space-y-2 text-xs">
-      <div>
-        <div class="flex justify-between text-[11px] mb-1">
-          <span class="text-slate-400">HP</span>
-          <span id="hp-val">100 / 100</span>
-        </div>
-        <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-700">
-          <div id="hp-bar" class="bg-red-500 h-full w-full transition-all duration-300 shadow-[0_0_8px_#ef4444]"></div>
-        </div>
-      </div>
-
-      <div>
-        <div class="flex justify-between text-[11px] mb-1">
-          <span class="text-slate-400">EXP (LVL <span id="player-lvl" class="text-[#00f0ff]">1</span>)</span>
-          <span id="exp-val">0 / 100</span>
-        </div>
-        <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-700">
-          <div id="exp-bar" class="bg-[#00f0ff] h-full w-0 transition-all duration-300 shadow-[0_0_8px_#00f0ff]"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- STATS MATRIX -->
-    <div class="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-slate-800 text-center text-xs">
-      <div class="bg-slate-950/60 border border-slate-800 p-1.5 rounded">
-        <span class="text-slate-500 block text-[9px]">STR</span>
-        <strong id="stat-str" class="text-[#00f0ff] text-sm">10</strong>
-      </div>
-      <div class="bg-slate-950/60 border border-slate-800 p-1.5 rounded">
-        <span class="text-slate-500 block text-[9px]">INT</span>
-        <strong id="stat-int" class="text-purple-400 text-sm">12</strong>
-      </div>
-      <div class="bg-slate-950/60 border border-slate-800 p-1.5 rounded">
-        <span class="text-slate-500 block text-[9px]">AGI</span>
-        <strong id="stat-agi" class="text-emerald-400 text-sm">8</strong>
-      </div>
-    </div>
-
-    <!-- CONTROL BUTTONS -->
-    <div class="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-slate-800">
-      <button onclick="openAnalyticsModal()" class="py-1.5 px-2 bg-purple-950/40 border border-purple-500/50 rounded text-[10px] text-purple-300 font-bold hover:bg-purple-900/50">
-        ANALYTICS & MEMORY
-      </button>
-      <button onclick="openScheduleModal()" class="py-1.5 px-2 bg-cyan-950/40 border border-[#00f0ff]/50 rounded text-[10px] text-[#00f0ff] font-bold hover:bg-cyan-900/50">
-        SCHEDULE & ALERTS
-      </button>
-    </div>
   </header>
 
-  <!-- MAIN QUEST CARD -->
-  <main id="quest-panel" class="w-full max-w-md my-4 p-5 rounded-2xl bg-[rgba(12,14,28,0.85)] border-2 border-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.4)] backdrop-blur-md quest-glow transition-all duration-500">
-    <div class="flex justify-between items-center border-b border-slate-700/80 pb-2">
-      <span id="quest-tag" class="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-[#00f0ff] border border-[#00f0ff]">
-        DAILY QUEST
+  <!-- CENTER PANEL: ANIMATED ANIME GIRL SYSTEM AI ASSISTANT -->
+  <main class="w-full max-w-md my-4 p-5 rounded-2xl bg-[rgba(12,14,28,0.85)] border-2 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] backdrop-blur-md flex flex-col items-center">
+    
+    <!-- AI ASSISTANT TITLE -->
+    <div class="w-full flex justify-between items-center border-b border-cyan-500/30 pb-2 mb-3">
+      <span class="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-[#00f0ff] border border-[#00f0ff]">
+        SYSTEM AI ASSISTANT
       </span>
-      <span class="text-[10px] text-amber-400 font-bold">PRIORITY: S</span>
+      <span class="text-[10px] text-emerald-400 font-bold">STATUS: ONLINE</span>
     </div>
 
-    <div class="mt-4">
-      <h2 id="quest-title" class="text-lg font-extrabold text-slate-100 uppercase tracking-wide m-0">ATTEND COMPUTER NETWORKS CLASS</h2>
-      <p id="quest-sub" class="text-xs text-cyan-300/80 mt-1 m-0">📍 Location: Room 204, Block-B</p>
-
-      <!-- COUNTDOWN TIMER -->
-      <div id="timer-box" class="mt-4 p-4 bg-slate-950/80 border border-[#00f0ff]/40 rounded-xl text-center shadow-inner">
-        <p class="text-[10px] text-slate-400 tracking-widest uppercase m-0">TIME REMAINING UNTIL PENALTY</p>
-        <p id="timer-display" class="text-4xl font-black text-[#00f0ff] tracking-wider mt-1 m-0">10:00</p>
-      </div>
+    <!-- ANIMATED ANIME GIRL AVATAR -->
+    <div class="relative my-2">
+      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdWpzeGs1OHJ3bXExdHA5dzUydTFyeXAwazZ5bWszNmsxcDFseGdpbyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L1R1tvI9svvIWwpVYz/giphy.gif" 
+           alt="System Anime Girl Assistant" 
+           class="h-56 w-56 rounded-full object-cover border-4 border-[#00f0ff] anime-aura shadow-[0_0_20px_#00f0ff]">
     </div>
 
-    <button id="quest-action-btn" onclick="handleQuestAction()" class="w-full mt-5 py-3 rounded-xl font-black text-xs uppercase tracking-widest bg-cyan-500/20 border border-[#00f0ff] hover:bg-[#00f0ff] hover:text-black text-[#00f0ff] transition-all shadow-[0_0_10px_#00f0ff]">
-      VERIFY GPS LOCATION
+    <!-- AI DIALOGUE BOX -->
+    <div class="w-full mt-4 p-3 bg-slate-950/90 border border-purple-500/50 rounded-xl shadow-inner">
+      <p class="text-[10px] text-purple-400 font-bold tracking-widest m-0 uppercase">[ SYSTEM AI LOG ]</p>
+      <p id="ai-dialogue" class="text-xs text-cyan-200 mt-1 m-0 leading-relaxed">
+        "Welcome back, Player #001. I am your personal System Interface. All daily quests and class schedule timers are operating normally."
+      </p>
+    </div>
+
+    <!-- ACTION BUTTON -->
+    <button onclick="speakAIDialogue()" class="w-full mt-4 py-2.5 rounded-xl font-black text-xs uppercase tracking-widest bg-purple-950/40 border border-purple-500 hover:bg-purple-900/50 text-purple-300 transition-all shadow-[0_0_10px_#a855f7]">
+      INTERACT WITH SYSTEM AI
     </button>
   </main>
 
-  <!-- DAILY SIDE QUESTS -->
-  <section class="w-full max-w-md bg-[rgba(12,14,28,0.85)] border border-slate-800 rounded-xl p-4 backdrop-blur-md">
-    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 m-0">DAILY SIDE QUESTS</h3>
-    <div class="space-y-2 text-xs">
-      <label class="flex items-center justify-between p-2 rounded bg-slate-900/60 border border-slate-800 cursor-pointer">
-        <div class="flex items-center space-x-2">
-          <input type="checkbox" onchange="completeTask(this, 25, 'str')" class="accent-[#00f0ff]">
-          <span>Complete 50 Push-ups</span>
-        </div>
-        <span class="text-[10px] text-[#00f0ff]">+25 EXP / +1 STR</span>
-      </label>
-      <label class="flex items-center justify-between p-2 rounded bg-slate-900/60 border border-slate-800 cursor-pointer">
-        <div class="flex items-center space-x-2">
-          <input type="checkbox" onchange="completeTask(this, 25, 'int')" class="accent-[#00f0ff]">
-          <span>Read 1 Chapter</span>
-        </div>
-        <span class="text-[10px] text-purple-400">+25 EXP / +1 INT</span>
-      </label>
-    </div>
-  </section>
-
-  <footer class="text-[10px] text-slate-600 mt-4 tracking-widest">
-    [ SYSTEM v2.0 - LIVE IST OPERATIONAL ]
+  <footer class="text-[10px] text-slate-600 my-2 tracking-widest">
+    [ SYSTEM AI ASSISTANT v2.0 ACTIVE ]
   </footer>
 
   <script>
-    // CORE SYSTEM LOGIC
-    let state = {
-      level: 1,
-      exp: 0,
-      maxExp: 100,
-      hp: 100,
-      stats: { str: 6, int: 0, agi: 5 },
-      timeRemaining: 600,
-      isPenaltyMode: false
-    };
-
     // IST Clock
     setInterval(() => {
       const now = new Date();
@@ -180,44 +100,17 @@
       document.getElementById('ist-clock').innerText = `IST ${istString}`;
     }, 1000);
 
-    // Timer Logic
-    setInterval(() => {
-      if (state.timeRemaining > 0 && !state.isPenaltyMode) {
-        state.timeRemaining--;
-        let mins = Math.floor(state.timeRemaining / 60);
-        let secs = state.timeRemaining % 60;
-        document.getElementById('timer-display').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-      }
-    }, 1000);
+    // Interactive AI Responses
+    const dialogues = [
+      '"Player #001, your class schedule is being monitored in real-time. Do not miss any quests!"',
+      '"Remember to complete your daily side quests to gain extra STR and INT stats."',
+      '"System alert: System lock will be triggered if penalty timer expires."',
+      '"You are currently E-RANK. Level up continuously to evolve your system authority!"'
+    ];
 
-    function completeTask(cb, exp, stat) {
-      if (cb.checked) {
-        state.exp += exp;
-        if (state.stats[stat] !== undefined) state.stats[stat] += 1;
-        cb.disabled = true;
-        updateUI();
-      }
-    }
-
-    function updateUI() {
-      document.getElementById('player-lvl').innerText = state.level;
-      document.getElementById('exp-val').innerText = `${state.exp} / ${state.maxExp}`;
-      document.getElementById('exp-bar').style.width = `${(state.exp / state.maxExp) * 100}%`;
-      document.getElementById('stat-str').innerText = state.stats.str;
-      document.getElementById('stat-int').innerText = state.stats.int;
-      document.getElementById('stat-agi').innerText = state.stats.agi;
-    }
-
-    function openAnalyticsModal() {
-      alert("Analytics & System Memory Loaded!");
-    }
-
-    function openScheduleModal() {
-      alert("Schedule & IST Timetable Alert System Active!");
-    }
-
-    function handleQuestAction() {
-      alert("GPS Verification Successful! +50 EXP Gained.");
+    function speakAIDialogue() {
+      const randomIndex = Math.floor(Math.random() * dialogues.length);
+      document.getElementById('ai-dialogue').innerText = dialogues[randomIndex];
     }
   </script>
 </body>
