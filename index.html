@@ -128,7 +128,10 @@ body.penalty .panel{box-shadow:0 0 26px rgba(255,0,60,.6),inset 0 0 26px rgba(25
     <div class="bar"><div class="fill" id="hpf" style="width:100%"></div></div>
     <div class="stats" id="stats"></div>
     <div class="pts">Available points: <b class="orb" id="pts">0</b></div>
-    <button class="btn" id="scb" style="margin-top:8px;font-size:12px;padding:9px">SCHEDULE &amp; ALERTS</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">
+  <button class="btn" onclick="speakAIDialogue()" style="font-size:11px;padding:8px;">🔊 SPEAK LOG</button>
+  <button class="btn" onclick="startVoiceRecognition()" style="font-size:11px;padding:8px;">🎙️ VOICE CMD</button>
+</div>
     <button class="btn" id="scb" style="margin-top:8px;font-size:12px;padding:9px">SCHEDULE &amp; ALERTS</button>
     <div class="name" id="nx" style="margin-top:8px"></div>
   </section>
