@@ -36,8 +36,8 @@
       background-size: 100% 4px;
     }
     @keyframes floatAura {
-      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 15px #00f0ff); }
-      50% { transform: translateY(-8px); filter: drop-shadow(0 0 25px #a855f7); }
+      0%, 100% { transform: translateY(0px); filter: drop-shadow(0 0 12px #00f0ff); }
+      50% { transform: translateY(-6px); filter: drop-shadow(0 0 22px #a855f7); }
     }
     .anime-aura { animation: floatAura 4s ease-in-out infinite; }
     @keyframes pulseGlow {
@@ -106,7 +106,7 @@
     </div>
   </header>
 
-  <!-- CENTER PANEL: A.R.I.A SYSTEM AI ASSISTANT (INLINE VECTOR AVATAR) -->
+  <!-- CENTER PANEL: A.R.I.A SYSTEM AI ASSISTANT -->
   <section class="w-full max-w-md my-3 p-4 rounded-2xl bg-[rgba(12,14,28,0.85)] border-2 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] backdrop-blur-md flex flex-col items-center">
     <div class="w-full flex justify-between items-center border-b border-cyan-500/30 pb-2 mb-2">
       <span class="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-[#00f0ff] border border-[#00f0ff]">
@@ -116,8 +116,8 @@
     </div>
 
     <!-- ANIMATED VECTOR AVATAR -->
-    <div class="relative my-2 flex justify-center items-center h-44 w-44 rounded-full border-4 border-[#00f0ff] bg-slate-950 anime-aura shadow-[0_0_20px_#00f0ff] overflow-hidden">
-      <svg class="w-36 h-36 text-[#00f0ff]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div class="relative my-2 flex justify-center items-center h-40 w-40 rounded-full border-4 border-[#00f0ff] bg-slate-950 anime-aura shadow-[0_0_20px_#00f0ff] overflow-hidden">
+      <svg class="w-32 h-32 text-[#00f0ff]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="45" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="4 2" />
         <path d="M50 15 L80 80 L50 68 L20 80 Z" fill="rgba(0, 240, 255, 0.15)" stroke="#00f0ff" stroke-width="2" />
         <circle class="aria-eye" cx="40" cy="45" r="4" fill="#00f0ff" />
@@ -130,7 +130,7 @@
     <div class="w-full mt-2 p-2.5 bg-slate-950/90 border border-purple-500/50 rounded-xl shadow-inner">
       <p class="text-[9px] text-purple-400 font-bold tracking-widest m-0 uppercase">[ A.R.I.A SYSTEM LOG ]</p>
       <p id="ai-dialogue" class="text-xs text-cyan-200 mt-1 m-0 leading-relaxed">
-        "Welcome back, Player #001. A.R.I.A online. Timetable and active quest triggers are functioning normally."
+        "Welcome back, Player #001. A.R.I.A online. Do not ignore the active quest timers."
       </p>
     </div>
 
@@ -209,10 +209,10 @@
 
     // AI Dialogue System
     const dialogues = [
-      '"Player #001, timetable schedule triggers are monitoring your class hours in real time."',
-      '"Remember to check side quests to upgrade your STR and INT parameters."',
-      '"WARNING: Penalty condition will initiate if countdown timer expires."',
-      '"E-RANK detected. Level up continuously to expand system authority."'
+      '"Player #001, schedule parameters are being monitored in real-time."',
+      '"Do not ignore the countdown timer. Penalty conditions will trigger on expiration."',
+      '"Complete side quests to gain extra STR and INT stat points."',
+      '"Current rank: E-RANK. Continuous level-ups will expand system authority."'
     ];
 
     function speakAIDialogue() {
