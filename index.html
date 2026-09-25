@@ -45,6 +45,11 @@
       50% { filter: drop-shadow(0 0 18px #a855f7); }
     }
     .quest-glow { animation: pulseGlow 3s infinite; }
+    @keyframes eyeGlow {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; filter: drop-shadow(0 0 8px #00f0ff); }
+    }
+    .aria-eye { animation: eyeGlow 2s infinite; }
   </style>
 </head>
 <body class="scanline min-h-screen w-full m-0 p-4 select-none flex flex-col justify-between items-center bg-[#05050a]">
@@ -101,33 +106,36 @@
     </div>
   </header>
 
-  <!-- CENTER PANEL: ANIMATED ANIME GIRL SYSTEM AI ASSISTANT -->
+  <!-- CENTER PANEL: A.R.I.A SYSTEM AI ASSISTANT (INLINE VECTOR AVATAR) -->
   <section class="w-full max-w-md my-3 p-4 rounded-2xl bg-[rgba(12,14,28,0.85)] border-2 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.4)] backdrop-blur-md flex flex-col items-center">
     <div class="w-full flex justify-between items-center border-b border-cyan-500/30 pb-2 mb-2">
       <span class="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded bg-cyan-500/20 text-[#00f0ff] border border-[#00f0ff]">
-        SYSTEM AI ASSISTANT
+        SYSTEM AI ASSISTANT · A.R.I.A
       </span>
       <span class="text-[10px] text-emerald-400 font-bold">STATUS: ONLINE</span>
     </div>
 
-    <!-- ANIMATED ANIME GIRL AVATAR (STABLE LINK + AUTO-FALLBACK) -->
-    <div class="relative my-1 flex justify-center items-center">
-      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=QuestismGirlAI&backgroundColor=05050a&clip=true" 
-           alt="System Anime Girl Assistant" 
-           class="h-44 w-44 rounded-full object-cover border-4 border-[#00f0ff] anime-aura shadow-[0_0_20px_#00f0ff]"
-           onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=QuestismSystem';">
+    <!-- ANIMATED VECTOR AVATAR -->
+    <div class="relative my-2 flex justify-center items-center h-44 w-44 rounded-full border-4 border-[#00f0ff] bg-slate-950 anime-aura shadow-[0_0_20px_#00f0ff] overflow-hidden">
+      <svg class="w-36 h-36 text-[#00f0ff]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" stroke="#a855f7" stroke-width="1.5" stroke-dasharray="4 2" />
+        <path d="M50 15 L80 80 L50 68 L20 80 Z" fill="rgba(0, 240, 255, 0.15)" stroke="#00f0ff" stroke-width="2" />
+        <circle class="aria-eye" cx="40" cy="45" r="4" fill="#00f0ff" />
+        <circle class="aria-eye" cx="60" cy="45" r="4" fill="#00f0ff" />
+        <path d="M42 60 Q50 65 58 60" stroke="#a855f7" stroke-width="2" stroke-linecap="round" />
+      </svg>
     </div>
 
     <!-- AI DIALOGUE BOX -->
-    <div class="w-full mt-3 p-2.5 bg-slate-950/90 border border-purple-500/50 rounded-xl shadow-inner">
-      <p class="text-[9px] text-purple-400 font-bold tracking-widest m-0 uppercase">[ SYSTEM AI LOG ]</p>
+    <div class="w-full mt-2 p-2.5 bg-slate-950/90 border border-purple-500/50 rounded-xl shadow-inner">
+      <p class="text-[9px] text-purple-400 font-bold tracking-widest m-0 uppercase">[ A.R.I.A SYSTEM LOG ]</p>
       <p id="ai-dialogue" class="text-xs text-cyan-200 mt-1 m-0 leading-relaxed">
-        "Welcome back, Player #001. I am monitoring your quest progress in real-time."
+        "Welcome back, Player #001. A.R.I.A online. Timetable and active quest triggers are functioning normally."
       </p>
     </div>
 
     <button onclick="speakAIDialogue()" class="w-full mt-3 py-2 rounded-xl font-black text-[11px] uppercase tracking-widest bg-purple-950/40 border border-purple-500 hover:bg-purple-900/50 text-purple-300 transition-all shadow-[0_0_10px_#a855f7]">
-      INTERACT WITH SYSTEM AI
+      INTERACT WITH A.R.I.A
     </button>
   </section>
 
@@ -178,7 +186,7 @@
   </section>
 
   <footer class="text-[10px] text-slate-600 my-2 tracking-widest">
-    [ SYSTEM v2.0 - FULL MANHWA HUD ACTIVE ]
+    [ SYSTEM v2.0 - A.R.I.A ASSISTANT ACTIVE ]
   </footer>
 
   <script>
@@ -201,10 +209,10 @@
 
     // AI Dialogue System
     const dialogues = [
-      '"Player #001, your class schedule is being monitored in real-time. Do not miss any quests!"',
-      '"Remember to complete your daily side quests to gain extra STR and INT stats."',
-      '"System alert: Penalty mode will trigger if the quest timer reaches 00:00!"',
-      '"You are currently E-RANK. Level up continuously to evolve your system authority!"'
+      '"Player #001, timetable schedule triggers are monitoring your class hours in real time."',
+      '"Remember to check side quests to upgrade your STR and INT parameters."',
+      '"WARNING: Penalty condition will initiate if countdown timer expires."',
+      '"E-RANK detected. Level up continuously to expand system authority."'
     ];
 
     function speakAIDialogue() {
