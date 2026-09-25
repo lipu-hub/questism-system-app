@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#05050a">
   <title>Questism System Interface</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -26,7 +27,15 @@
     }
   </script>
   <style>
-    body { background-color: #05050a; color: #f1f5f9; font-family: monospace; }
+    html, body {
+      background-color: #05050a !important;
+      color: #f1f5f9;
+      font-family: monospace;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+    }
     .scanline {
       background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3));
       background-size: 100% 4px;
@@ -38,7 +47,7 @@
     .quest-glow { animation: pulseGlow 3s infinite; }
   </style>
 </head>
-<body class="scanline min-h-screen flex flex-col justify-between items-center p-4 select-none">
+<body class="scanline min-h-screen w-full m-0 p-4 select-none flex flex-col justify-between items-center bg-[#05050a]">
 
   <!-- TOP HUD: PLAYER STATUS & STATS -->
   <header class="w-full max-w-md bg-[rgba(12,14,28,0.85)] border-2 border-purple-500/70 rounded-xl p-4 shadow-[0_0_15px_rgba(168,85,247,0.3)] backdrop-blur-md">
@@ -155,9 +164,13 @@
   <script>
     // CORE SYSTEM LOGIC
     let state = {
-      level: 1, exp: 0, maxExp: 100, hp: 100,
+      level: 1,
+      exp: 0,
+      maxExp: 100,
+      hp: 100,
       stats: { str: 6, int: 0, agi: 5 },
-      timeRemaining: 600, isPenaltyMode: false
+      timeRemaining: 600,
+      isPenaltyMode: false
     };
 
     // IST Clock
@@ -195,9 +208,17 @@
       document.getElementById('stat-agi').innerText = state.stats.agi;
     }
 
-    function openAnalyticsModal() { alert("Analytics & System Memory Loaded!"); }
-    function openScheduleModal() { alert("Schedule & IST Timetable Alert System Active!"); }
-    function handleQuestAction() { alert("GPS Verification Successful! +50 EXP Gained."); }
+    function openAnalyticsModal() {
+      alert("Analytics & System Memory Loaded!");
+    }
+
+    function openScheduleModal() {
+      alert("Schedule & IST Timetable Alert System Active!");
+    }
+
+    function handleQuestAction() {
+      alert("GPS Verification Successful! +50 EXP Gained.");
+    }
   </script>
 </body>
 </html>
