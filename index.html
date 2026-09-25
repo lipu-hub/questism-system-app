@@ -110,11 +110,12 @@
       <span class="text-[10px] text-emerald-400 font-bold">STATUS: ONLINE</span>
     </div>
 
-    <!-- ANIMATED ANIME GIRL AVATAR -->
-    <div class="relative my-1">
-      <img src="https://i.pinimg.com/originals/81/2a/3e/812a3e5c9a41d4013d33fef77dd6233f.gif" 
+    <!-- ANIMATED ANIME GIRL AVATAR (STABLE LINK + AUTO-FALLBACK) -->
+    <div class="relative my-1 flex justify-center items-center">
+      <img src="https://api.dicebear.com/7.x/bottts/svg?seed=QuestismGirlAI&backgroundColor=05050a&clip=true" 
            alt="System Anime Girl Assistant" 
-           class="h-44 w-44 rounded-full object-cover border-4 border-[#00f0ff] anime-aura shadow-[0_0_20px_#00f0ff]">
+           class="h-44 w-44 rounded-full object-cover border-4 border-[#00f0ff] anime-aura shadow-[0_0_20px_#00f0ff]"
+           onerror="this.onerror=null; this.src='https://api.dicebear.com/7.x/identicon/svg?seed=QuestismSystem';">
     </div>
 
     <!-- AI DIALOGUE BOX -->
