@@ -485,3 +485,70 @@ genQuest();render();$('timer').textContent=fmt(S.left);
 </script>
 </body>
 </html>
+<!-- WEB APIs INTEGRATION BLOCK -->
+<script>
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  function playBeep(freq = 440, duration = 0.1) {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    } catch (e) {}
+  }
+
+  function speakAIDialogue() {
+    playBeep(600, 0.05);
+    const txt = document.getElementById('ariatxt')?.innerText || "System active.";
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(txt);
+      window.speechSynthesis.speak(u);
+    }
+  }
+
+  function startVoiceRecognition() {
+    playBeep(700, 0.08);
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return alert("Speech API not supported in this browser");
+    const rec = new SpeechRecognition();
+    rec.lang = 'en-US';
+    const el = document.getElementById('ariatxt');
+    if (el) el.innerText = "Listening for voice command...";
+    
+    rec.onresult = (e) => {
+      const cmd = e.results[0][0].transcript;
+      if (el) el.innerText = `Voice Command: "${cmd}"`;
+      if (cmd.toLowerCase().includes("verify") || cmd.toLowerCase().includes("gps")) {
+        verifyGPSLocation();
+      }
+    };
+    rec.start();
+  }
+
+  function verifyGPSLocation() {
+    playBeep(800, 0.1);
+    const el = document.getElementById('ariatxt');
+    if ("geolocation" in navigator) {
+      if (el) el.innerText = "Acquiring GPS coordinates...";
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          if (el) el.innerText = `GPS Verified! Lat: ${pos.coords.latitude.toFixed(2)}, Lon: ${pos.coords.longitude.toFixed(2)}`;
+          if (typeof addXP === 'function') addXP(50);
+        },
+        (err) => {
+          if (el) el.innerText = `GPS Check Bypassed: +50 XP Granted!`;
+          if (typeof addXP === 'function') addXP(50);
+        }
+      );
+    } else {
+      if (el) el.innerText = "Geolocation not supported.";
+      if (typeof addXP === 'function') addXP(50);
+    }
+  }
+</script>
